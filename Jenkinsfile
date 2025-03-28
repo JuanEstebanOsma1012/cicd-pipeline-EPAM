@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         BRANCH_NAME = "${env.GIT_BRANCH}"
-        APP_PORT = (env.GIT_BRANCH == 'main') ? '3000' : '3001'
+        APP_PORT = "${env.GIT_BRANCH == 'main' ? '3000' : '3001'}"
         IMAGE_NAME = "myapp:${env.GIT_BRANCH}"
     }
 
