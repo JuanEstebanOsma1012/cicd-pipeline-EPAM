@@ -1,10 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'
-        }
-    }
-    
+    agent any
+
     environment {
         BRANCH_NAME = "${env.GIT_BRANCH}"
         APP_PORT = "${env.GIT_BRANCH == 'main' ? '3000' : '3001'}"
@@ -19,12 +15,24 @@ pipeline {
         }
 
         stage('Build') {
+            agent { 
+                docker { 
+                    image 'node:20' 
+                    args '-v $PWD:/app -w /app' // Monta el workspace dentro del contenedor
+                } 
+            }
             steps {
                 sh 'npm install'
             }
         }
 
         stage('Test') {
+            agent { 
+                docker { 
+                    image 'node:20' 
+                    args '-v $PWD:/app -w /app' // Monta el workspace dentro del contenedor
+                } 
+            }
             steps {
                 sh 'npm test'
             }
