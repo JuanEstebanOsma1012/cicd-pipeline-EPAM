@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'
+        }
+    }
+    
     environment {
         BRANCH_NAME = "${env.GIT_BRANCH}"
         APP_PORT = "${env.GIT_BRANCH == 'main' ? '3000' : '3001'}"
